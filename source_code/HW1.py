@@ -54,6 +54,7 @@ for images, labels in test_loader:
     images = Variable(images.view(-1, 28*28))
     
     ## Put your prediction code here
+    prediction = None
     
     correct += (prediction.view(-1).long() == labels).sum()
     total += images.shape[0]
