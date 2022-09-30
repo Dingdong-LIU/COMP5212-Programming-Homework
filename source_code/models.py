@@ -25,5 +25,5 @@ def svm_loss(y_pred, y_true):
     n = y_pred.shape[0]
 
     pt_loss = 1 - y_pred.mul(y_true)
-    loss = torch.sum(torch.max(0, pt_loss)) / n
+    loss = torch.sum(torch.max(torch.zeros_like(pt_loss), pt_loss)) / n
     return loss
