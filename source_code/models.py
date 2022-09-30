@@ -1,8 +1,8 @@
 from torch import nn
 import torch
-import numpy as np
+# import numpy as np
 
-class Logistic_Regression(nn.Module):
+class Linear_Layer(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
         self.weights = nn.Parameter(torch.randn((input_size, output_size)))
