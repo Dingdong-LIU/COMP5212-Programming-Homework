@@ -5,12 +5,12 @@ import numpy as np
 class Logistic_Regression(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
-        self.weights = nn.Parameter(torch.randn((input_size, output_size))/np.sqrt(input_size))
+        self.weights = nn.Parameter(torch.randn((input_size, output_size)))
         # self.bias = nn.Parameter(torch.zeros(output_size))
 
     def forward(self, x):
         logits = x.matmul(self.weights) 
-        return logits
+        return logits.squeeze()
 
 def logistic_loss(y_pred, y_true):
     n = len(y_pred)
