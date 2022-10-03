@@ -62,7 +62,7 @@ def train_and_test_model(loss_type="logistic regression", momentum=0, step_size_
         'train_history' : []
     }
     for lr in step_size_set:
-        torch.manual_seed(43)
+        torch.manual_seed(46)
         # get model
         model = load_model()
 

@@ -1,11 +1,13 @@
 from torch import nn
 import torch
+import math
 # import numpy as np
 
 class Linear_Layer(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
-        self.weights = nn.Parameter(nn.init.normal_(torch.zeros(input_size, output_size)))
+        self.weights = nn.Parameter(nn.init.kaiming_uniform_(
+            torch.zeros(input_size, output_size), a=math.sqrt(5)))
         # self.bias = nn.Parameter(torch.zeros(output_size))
 
     def forward(self, x):
