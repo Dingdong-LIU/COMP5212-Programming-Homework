@@ -68,14 +68,15 @@ def train_and_test_model(loss_type="logistic regression", momentum=0, step_size_
         # get optimizer
         opt = optim.SGD(model.parameters(), momentum=momentum, lr=lr)
 
-        num_epochs = 20  # added by me. modifiable.
+        num_epochs = 30  # added by me. modifiable.
         device = torch.device(
             'cpu') if torch.cuda.is_available() else torch.device('cpu')
         model.to(device)
 
         # Train the Model
         loss_history = []
-        with trange(num_epochs, desc="Training", unit='epoches') as epoches:
+        with trange(num_epochs, desc="Training", unit='epoch') as epoches:
+            total_loss_ = 0
             for epoch in epoches:
                 total_loss = []
                 for i, (images, labels) in enumerate(train_loader):
@@ -85,16 +86,22 @@ def train_and_test_model(loss_type="logistic regression", momentum=0, step_size_
                     pred = model(images)
                     loss = loss_fn(pred, labels)
 
+                    
+                    # if epoch > 0:
                     loss.backward()
                     opt.step()
                     opt.zero_grad()
-
-                    total_loss.append(loss.cpu().detach().numpy())
-                total_loss = np.mean(total_loss)
-                loss_history.append(total_loss)
+                    
+                    l = loss.cpu().detach().numpy()
+                    total_loss.append(l)
+                    if i % 20 == 0:
+                        epoches.set_description(f'Train epoch {epoch}')
+                        epoches.set_postfix(batch_loss=l, total_loss=total_loss_)
+                total_loss_ = np.mean(total_loss)
+                loss_history.append(total_loss_)
                 # print(f"Epoch {epoch}, loss = {total_loss}")
                 epoches.set_description(f'Train epoch {epoch}')
-                epoches.set_postfix(loss=total_loss)
+                epoches.set_postfix(batch_loss=l, total_loss=total_loss_)
 
         # Test the Model
         correct = 0.
@@ -117,6 +124,7 @@ def train_and_test_model(loss_type="logistic regression", momentum=0, step_size_
             'momentum' : momentum,
             'training_history' : [float(l) for l in loss_history],
         })
+        del model
     return train_test_records
 
 if __name__ == "__main__":
