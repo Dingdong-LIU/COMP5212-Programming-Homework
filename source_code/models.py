@@ -5,11 +5,11 @@ import torch
 class Linear_Layer(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
-        self.weights = nn.Parameter(torch.randn((input_size, output_size)))
+        self.weights = nn.Parameter(nn.init.normal_(torch.zeros(input_size, output_size)))
         # self.bias = nn.Parameter(torch.zeros(output_size))
 
     def forward(self, x):
-        logits = x.matmul(self.weights) 
+        logits = x.matmul(self.weights)
         return logits.squeeze()
 
 def logistic_loss(y_pred, y_true):
