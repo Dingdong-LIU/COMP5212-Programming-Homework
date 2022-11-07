@@ -33,11 +33,12 @@ def cifar_loaders(batch_size, shuffle_test=False):
 
 def train_model(model, device, train_loader, num_epoch, opt, loss_fn, preprocessing_fn):
     model.to(device)
+    epoch_loss_history = []
     for epoch in range(num_epoch):
         loss_history = []
         correct = 0
         with tqdm(train_loader) as progress_bar:
-            progress_bar.set_description(f'Train batch {epoch}')
+            progress_bar.set_description(f'Train epoch {epoch}')
             for i, (images, labels) in enumerate(progress_bar):
                 num_pictures = images.shape[0]
                 # images = Variable(images.view(-1, 3*32*32)).to(device)
@@ -63,11 +64,12 @@ def train_model(model, device, train_loader, num_epoch, opt, loss_fn, preprocess
                 if i == len(train_loader) - 1:
                     progress_bar.set_postfix(
                         Accuracy=correct/len(train_loader.dataset), Total_loss=np.mean(loss_history))
-    return loss_history, correct/len(train_loader.dataset)
+            epoch_loss_history.append(np.mean(loss_history))
+    return epoch_loss_history, correct/len(train_loader.dataset)
 
 def test_model(model, device, test_loader, preprocessing_fn):
     model.to(device)
-    loss_history = []
+    # loss_history = []
     correct = 0
     with tqdm(test_loader) as progress_bar:
         progress_bar.set_description(f'Testing')
@@ -91,8 +93,8 @@ def test_model(model, device, test_loader, preprocessing_fn):
             progress_bar.set_postfix(accuracy=batch_accuracy)
             if i == len(test_loader) - 1:
                 progress_bar.set_postfix(
-                    Accuracy=correct/len(test_loader.dataset), Total_loss=np.mean(loss_history))
-    return model, loss_history, correct/len(test_loader.dataset)
+                    Accuracy=correct/len(test_loader.dataset))
+    return model, correct/len(test_loader.dataset)
 
 def main():
     # Load dataset 
@@ -110,9 +112,9 @@ def main():
     # Get device
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
-    model, train_loss_history, train_accuracy = train_model(model, device=device, train_loader=train_loader, num_epoch=3, opt=opt, loss_fn=loss_fn, preprocessing_fn=preprocessing_fn)
+    train_loss_history, train_accuracy = train_model(model, device=device, train_loader=train_loader, num_epoch=3, opt=opt, loss_fn=loss_fn, preprocessing_fn=preprocessing_fn)
 
-    _, test_loss_history, test_accuracy = test_model(model, device=device, test_loader=test_loader, preprocessing_fn=preprocessing_fn)
+    model, test_accuracy = test_model(model, device=device, test_loader=test_loader, preprocessing_fn=preprocessing_fn)
 
     print(f"Train_acc = {train_accuracy}, Test_acc = {test_accuracy}")
 
