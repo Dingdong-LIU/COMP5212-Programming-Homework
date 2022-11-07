@@ -13,14 +13,14 @@ import random,time
 def cifar_loaders(batch_size, shuffle_test=False): 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.225, 0.225, 0.225])
-    train = datasets.CIFAR10('./', train=True, download=True, 
+    train = datasets.CIFAR10('~/data/cifar10', train=True, download=True, 
         transform=transforms.Compose([
             transforms.RandomHorizontalFlip(),
             transforms.RandomCrop(32, 4),
             transforms.ToTensor(),
             normalize,
         ]))
-    test = datasets.CIFAR10('./', train=False, 
+    test = datasets.CIFAR10('~/data/cifar10', train=False, 
         transform=transforms.Compose([transforms.ToTensor(), normalize]))
     train_loader = torch.utils.data.DataLoader(train, batch_size=batch_size,
         shuffle=True, pin_memory=True)
