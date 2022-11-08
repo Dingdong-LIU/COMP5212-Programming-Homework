@@ -23,7 +23,7 @@ class MLP(nn.Module):
         return x
 
 
-class MLP_NO_REG(nn.Module):
+class MLP_NO_ACT(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
         self.fc1 = nn.Linear(input_size, 1024)
@@ -70,7 +70,7 @@ class CNN(nn.Module):
         return x
 
 
-class CNN_NO_REG(nn.Module):
+class CNN_NO_ACT(nn.Module):
     def __init__(self, input_size, output_size):
         super().__init__()
         self.conv1 = nn.Conv2d(

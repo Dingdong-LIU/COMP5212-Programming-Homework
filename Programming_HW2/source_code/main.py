@@ -49,10 +49,11 @@ def train_model(model, device, train_loader, num_epoch, opt, loss_fn, preprocess
                 output = model(images)
                 loss = loss_fn(output, labels)
 
-                predictions = output.argmax(dim=1).squeeze()
-                correct_in_batch = (predictions == labels).sum().item()
-                accuracy = correct_in_batch / num_pictures
-                correct += correct_in_batch
+                with torch.no_grad():
+                    predictions = output.argmax(dim=1).squeeze()
+                    correct_in_batch = (predictions == labels).sum().item()
+                    accuracy = correct_in_batch / num_pictures
+                    correct += correct_in_batch
 
                 loss.backward()
                 opt.step()
