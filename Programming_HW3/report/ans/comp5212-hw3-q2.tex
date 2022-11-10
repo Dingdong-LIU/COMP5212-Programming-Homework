@@ -1,0 +1,23 @@
+\begin{enumerate}[(a)]
+    \item As $g$ is convex, we have the following relation (equation \ref{equation:q2-a-1}),
+    \begin{align} \label{equation:q2-a-1}
+        g\left(t \left[ \left\langle w_1, x\right\rangle + y \right] + (1-t) \left[ \left\langle w_2, x \right\rangle + y \right] \right) \leq t g(\left\langle w_1, x\right\rangle + y ) + (1-t) g(\left\langle w_2, x\right\rangle + y )
+    \end{align}
+    $\forall t \in \left[0,1\right]$ and $\forall w_1, w_2 \in \mathbb{R}^d$. Therefore, we can do the following substidution:
+    \begin{align*}
+        f(t w_1 + (1-t) w_2) &= g(\left\langle tw_1 + (1-t) w_2, x\right\rangle + y ) \\
+        &= g\left( t \left[\left\langle w_1, x\right\rangle + y\right] + \left(1-t\right) \left[\left\langle w_2, x\right\rangle + y\right] \right) \\
+        &\leq t g(\left\langle w_1, x\right\rangle + y ) + (1-t) g(\left\langle w_2, x\right\rangle + y ) \\
+        &= tf(w_1) + (1-t)f(w_2)
+    \end{align*}
+    the equality holds when equality of equation \ref{equation:q2-a-1} holds. Conclude that $f$ is also convex if $g$ is convex.
+
+    \item $\forall t \in \left[0,1\right]$ and $x_1, x_2 \in \mathbb{R}^d$, we have
+    \begin{align*}
+        g(tx_1 + (1-t)x_2) &= max_{i \in [r]}f_i(tx_1 + (1-t)x_2) \\
+        &\leq t \cdot max_{i \in [r]}f_i(x_1) + (1-t) \cdot  max_{i \in [r]}f_i(x_2) \\
+        &= tg(x_1) + (1-t)g(x_2)
+    \end{align*}
+    The equality holds if and only if $argmax_{i \in [r]}f_i(x_1) = argmax_{i \in [r]}f_i(x_2)$. Therefore $g$ is also a convex function.
+\end{enumerate}
+
