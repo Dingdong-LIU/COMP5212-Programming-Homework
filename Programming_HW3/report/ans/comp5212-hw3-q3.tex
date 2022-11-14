@@ -1,0 +1,35 @@
+\subsection*{Loss History}
+Training loss is reported as follows (see figure \ref{fig:training_loss}):
+
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics*[]{figs/loss.pdf}
+        \caption[]{Training loss for 30 epochs}
+        \label{fig:training_loss}
+    \end{center}
+\end{figure}
+
+\subsection*{Model structure}
+
+\begin{verbatim}
+    BidirectionalLSTM(
+        (vocab): Vocab()
+        (word_embeddings): Embedding(13891, 512, padding_idx=1)
+        (lstm): LSTM(512, 256, batch_first=True, bidirectional=True)
+        (lstm2fc): Linear(in_features=512, out_features=256, bias=True)
+        (fc2label): Linear(in_features=256, out_features=2, bias=True)
+    )
+\end{verbatim}
+\textbf{Explainations:}
+\begin{enumerate}
+    \item \textbf{Vocab size} is 13891. I defined 3 special tokens: $<pad>, <bos>, <eos>$ for padding, begin of sequence, end of sequence.
+    \item \textbf{Embedding dimention} is 512.
+    \item \textbf{LSTM Layer:} $input\_size=512$, $hidden\_size=256$, only one bidirectional layer is adopted.
+    \item \textbf{No dropout layer}.
+    \item \textbf{Fully connected layer:} $input\_dim=512$, $hidden\_dim=256$, $output\_dim=2$ with $relu$ activation.
+\end{enumerate}
+
+
+\subsection*{Final Testing Accuracy}
+
+Final testing accuracy is $83.83\%$.
